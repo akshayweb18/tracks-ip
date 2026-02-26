@@ -38,7 +38,7 @@ export default function DeviceTable({ search }) {
   }, [search, devices]);
 
   return (
-    <div className="bg-white shadow-xl rounded-2xl p-6">
+    <div className="bg-white shadow-xl rounded-2xl p-4 md:p-6">
       <div className="overflow-x-auto max-h-[600px] relative custom-scrollbar">
         {loading ? (
           <div className="space-y-4 animate-pulse">
@@ -53,15 +53,15 @@ export default function DeviceTable({ search }) {
             ))}
           </div>
         ) : (
-          <table className="w-full text-sm border-separate border-spacing-0">
+          <table className="min-w-[700px] md:min-w-full text-sm border-separate border-spacing-0">
             <thead className="bg-gray-50 sticky top-0 z-10">
               <tr className="border-b text-left text-gray-600">
-                <th className="py-3 px-4">Employee</th>
-                <th className="px-4">Device ID</th>
-                <th className="px-4">IP Address</th>
-                <th className="px-4">Location</th>
-                <th className="px-4">Status</th>
-                <th className="px-4">Last Active</th>
+                <th className="py-3 px-2 md:px-4">Employee</th>
+                <th className="px-2 md:px-4">Device ID</th>
+                <th className="px-2 md:px-4">IP Address</th>
+                <th className="px-2 md:px-4">Location</th>
+                <th className="px-2 md:px-4">Status</th>
+                <th className="px-2 md:px-4">Last Active</th>
               </tr>
             </thead>
 
@@ -71,20 +71,20 @@ export default function DeviceTable({ search }) {
                   key={d._id}
                   className="border-b hover:bg-gray-50 transition-colors cursor-pointer"
                 >
-                  <td className="py-3 px-4 font-medium text-blue-600 hover:underline flex items-center gap-2">
+                  <td className="py-3 px-2 md:px-4 font-medium text-blue-600 hover:underline flex items-center gap-2">
                     <FaLaptop className="text-gray-400" />
                     <Link href={`/devices/${d._id}`}>{d.assignedEmployee}</Link>
                   </td>
-                  <td className="px-4">{d.deviceId}</td>
-                  <td className="px-4 flex items-center gap-1">
+                  <td className="px-2 md:px-4">{d.deviceId}</td>
+                  <td className="px-2 md:px-4 flex items-center gap-1">
                     <FaWifi className="text-gray-400" />
                     {d.publicIP}
                   </td>
-                  <td className="px-4">{d.location}</td>
-                  <td className="px-4">
+                  <td className="px-2 md:px-4">{d.location}</td>
+                  <td className="px-2 md:px-4">
                     <StatusBadge status={d.status} animated />
                   </td>
-                  <td className="px-4 text-gray-500">
+                  <td className="px-2 md:px-4 text-gray-500 whitespace-nowrap">
                     {new Date(d.lastActive).toLocaleString("en-IN", {
                       dateStyle: "medium",
                       timeStyle: "short",
@@ -129,7 +129,7 @@ export default function DeviceTable({ search }) {
           border-radius: 4px;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-          background-color: #111; /* black scrollbar */
+          background-color: #111;
           border-radius: 4px;
         }
 
