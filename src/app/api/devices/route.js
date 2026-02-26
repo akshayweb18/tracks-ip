@@ -1,49 +1,43 @@
 import { NextResponse } from "next/server";
 
-function randomIP() {
-  return `${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}`;
-}
-
-function randomStatus() {
-  return Math.random() > 0.4 ? "online" : "offline";
-}
-
-const cities = [
-  "Mumbai, Maharashtra",
-  "Pune, Maharashtra",
-  "Delhi, India",
-  "Bangalore, Karnataka",
-  "Hyderabad, Telangana",
-  "Chennai, Tamil Nadu",
+// Some sample names and locations to randomize
+const employeeNames = [
+  "Akshay","Rahul","Priya","Sonia","Vikram","Neha","Rohit","Anita","Manish","Divya",
+  "Karan","Simran","Ramesh","Pooja","Amit","Richa","Sandeep","Megha","Raj","Sneha"
 ];
 
-const employees = [
-  "Akshay Chaudhari",
-  "Rahul Sharma",
-  "Priya Mehta",
-  "Neha Patil",
-  "Amit Verma",
-  "Sneha Joshi",
-  "Rohit Singh",
-  "Karan Desai",
-  "Anjali Gupta",
-  "Vikram Rao",
+const locations = [
+  "Mumbai, Maharashtra","Pune, Maharashtra","Delhi, India","Bangalore, Karnataka",
+  "Chennai, Tamil Nadu","Hyderabad, Telangana","Kolkata, West Bengal",
+  "Ahmedabad, Gujarat","Jaipur, Rajasthan","Lucknow, Uttar Pradesh"
 ];
 
+const statuses = ["online", "offline"];
+
+function getRandomItem(array) {
+  return array[Math.floor(Math.random() * array.length)];
+}
+
+// Generate 80 unique devices
 export async function GET() {
-  const dummyDevices = Array.from({ length: 50 }).map((_, i) => ({
-    _id: `${i + 1}`,
-    deviceId: `LAPTOP-${1000 + i}`,
-    serialNumber: `SN-${2000 + i}`,
-    assignedEmployee:
-      employees[Math.floor(Math.random() * employees.length)],
-    publicIP: randomIP(),
-    location: cities[Math.floor(Math.random() * cities.length)],
-    status: randomStatus(),
-    lastActive: new Date(
-      Date.now() - Math.floor(Math.random() * 10000000)
-    ),
-  }));
+  const dummyDevices = [];
+
+  for (let i = 1; i <= 80; i++) {
+    const randomName = getRandomItem(employeeNames);
+    const randomLocation = getRandomItem(locations);
+    const randomStatus = getRandomItem(statuses);
+    const randomIP = `${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}`;
+
+    dummyDevices.push({
+      _id: i.toString(),
+      deviceId: `LAPTOP-${String(i).padStart(3, "0")}`,
+      assignedEmployee: randomName,
+      publicIP: randomIP,
+      location: randomLocation,
+      status: randomStatus,
+      lastActive: new Date(),
+    });
+  }
 
   return NextResponse.json(dummyDevices);
 }

@@ -1,18 +1,40 @@
 "use client";
 
+import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Search, Bell } from "lucide-react";
+import { Search, Bell, LogOut, ChevronDown } from "lucide-react";
 
 export default function Header({ search, setSearch }) {
+  const router = useRouter();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // adjust auth key
+    router.push("/login");
+  };
+
+  // Close dropdown if click outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-md bg-white/80 border-b">
+    <header className="sticky top-0 z-50 backdrop-blur-md bg-white/80 border-b shadow-sm">
       <div className="px-8 py-4 flex justify-between items-center">
 
         {/* Left Section */}
         <div>
-          <h2 className="text-xl font-semibold tracking-tight">
-            🌐 TrackFlow Dashboard
+          <h2 className="text-xl font-semibold tracking-tight uppercase">
+            Dashboard
           </h2>
           <p className="text-sm text-gray-500">
             Monitor company devices in real time
@@ -36,22 +58,42 @@ export default function Header({ search, setSearch }) {
             />
           </div>
 
-          {/* Notification Icon */}
+          {/* Notification */}
           <div className="relative cursor-pointer hover:scale-105 transition-transform duration-150">
             <Bell size={20} className="text-gray-600" />
-            <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+            <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
           </div>
 
-          {/* User Profile */}
-          <div className="flex items-center gap-3">
-            <Avatar className="h-9 w-9">
-              <AvatarFallback className="bg-black text-white">
-                AC
-              </AvatarFallback>
-            </Avatar>
-            <div className="hidden md:block">
-              <p className="text-sm font-medium">Akshay</p>
-              <p className="text-xs text-gray-500">IT Admin</p>
+          {/* User Profile Dropdown */}
+          <div className="relative" ref={dropdownRef}>
+            <button
+              onClick={() => setDropdownOpen(!dropdownOpen)}
+              className="flex items-center gap-2 rounded-full focus:outline-none hover:bg-gray-100 p-1 transition"
+            >
+              <Avatar className="h-9 w-9">
+                <AvatarFallback className="bg-black text-white">AC</AvatarFallback>
+              </Avatar>
+              <ChevronDown size={16} className="text-gray-600 transition-transform duration-200" 
+                style={{ transform: dropdownOpen ? "rotate(180deg)" : "rotate(0deg)" }}
+              />
+            </button>
+
+            {/* Animated Dropdown */}
+            <div
+              className={`absolute right-0 mt-3 w-48 bg-white border border-gray-200 rounded-xl shadow-lg overflow-hidden transition-all duration-300 origin-top-right ${
+                dropdownOpen
+                  ? "opacity-100 scale-100 pointer-events-auto"
+                  : "opacity-0 scale-95 pointer-events-none"
+              }`}
+            >
+              <div className="py-2">
+                <button
+                  onClick={handleLogout}
+                  className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-red-500 hover:text-white flex items-center gap-2 transition-colors"
+                >
+                  <LogOut size={16} /> Logout
+                </button>
+              </div>
             </div>
           </div>
 
