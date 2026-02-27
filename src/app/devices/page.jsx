@@ -1,66 +1,38 @@
-// import DeviceTable from "@/components/DeviceTable";
-
-// export default function DevicesPage() {
-//   return (
-//     <div className="p-6 bg-gray-50 min-h-screen">
-//       <h1 className="text-3xl font-bold mb-6">
-//         Registered Devices
-//       </h1>
-//       <DeviceTable />
-//     </div>
-//   );
-// }
-
-
 "use client";
 
-import { useEffect, useState } from "react";
+import DeviceTable from "@/components/DeviceTable";
+import StatsCards from "@/components/StatsCards";
+import { useState } from "react";
+import { FaSearch } from "react-icons/fa";
 
 export default function DevicesPage() {
-  const [devices, setDevices] = useState([]);
-
-  useEffect(() => {
-    fetchDevices();
-    const interval = setInterval(fetchDevices, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const fetchDevices = async () => {
-    const res = await fetch("/api/devices");
-    const data = await res.json();
-    setDevices(data);
-  };
+  const [search, setSearch] = useState("");
 
   return (
-    <div style={{ padding: 20 }}>
-      <h2>Device Tracking</h2>
+    <div className="min-h-screen bg-gray-50 p-6">
+      {/* Title */}
+      <h1 className="text-3xl md:text-4xl font-bold mb-6 text-gray-800">
+        Device Monitoring Dashboard
+      </h1>
 
-      <table border="1" cellPadding="10">
-        <thead>
-          <tr>
-            <th>Device</th>
-            <th>Employee</th>
-            <th>Public IP</th>
-            <th>Status</th>
-            <th>Last Seen</th>
-          </tr>
-        </thead>
-        <tbody>
-          {devices.map((d) => (
-            <tr key={d._id}>
-              <td>{d.deviceId}</td>
-              <td>{d.assignedEmployee}</td>
-              <td>{d.publicIP}</td>
-              <td>
-                <span style={{ color: d.status === "Active" ? "green" : "red" }}>
-                  {d.status}
-                </span>
-              </td>
-              <td>{new Date(d.lastSeen).toLocaleString()}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {/* Search Input */}
+      <div className="mb-6 flex justify-center md:justify-end">
+        <div className="relative w-full md:w-1/3">
+          <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+          <input
+            type="text"
+            placeholder="Search device or employee..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full border border-gray-300 rounded-full px-10 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400 transition-all duration-300 hover:shadow-md"
+          />
+        </div>
+      </div>
+
+      {/* Device Table */}
+     
+        <DeviceTable search={search} />
+     
     </div>
   );
 }

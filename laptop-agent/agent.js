@@ -1,36 +1,36 @@
+// laptop-agent/agent.js
 const axios = require("axios");
 const os = require("os");
-
-async function getPublicIP() {
-  try {
-    const res = await axios.get("https://api.ipify.org?format=json");
-    return res.data.ip;
-  } catch (err) {
-    console.log("Failed to get public IP");
-    return "Unknown";
-  }
-}
+const publicIp = require("public-ip");
 
 async function sendHeartbeat() {
   try {
+    // Get local IP
     const localIP = Object.values(os.networkInterfaces())
       .flat()
       .find((i) => i.family === "IPv4" && !i.internal)?.address;
 
-    const publicIP = await getPublicIP();
+    // Get public IP
+    const pubIP = await publicIp.v4();
+
+    // Device name = laptop name
+    const deviceId = os.hostname();
 
     await axios.post("http://localhost:3000/api/heartbeat", {
-      deviceId: os.hostname(),
-      assignedEmployee: "Akshay",
-      publicIP,
+      deviceId,
+      assignedEmployee: deviceId, // you can change this if needed
+      publicIP: pubIP,
       localIP,
     });
 
-    console.log("Heartbeat sent");
+    console.log("Heartbeat sent for", deviceId);
   } catch (err) {
-    console.log("Error:", err.message);
+    console.error("Heartbeat error:", err.message);
   }
 }
 
-setInterval(sendHeartbeat, 30000);
+// Send immediately
 sendHeartbeat();
+
+// Repeat every 30 seconds
+setInterval(sendHeartbeat, 30000);

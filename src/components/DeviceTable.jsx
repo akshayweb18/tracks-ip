@@ -73,7 +73,7 @@ export default function DeviceTable({ search }) {
             <thead className="bg-gray-50 sticky top-0 z-10">
               <tr className="border-b text-left text-gray-600">
                 <th className="py-3 px-2 md:px-4">Employee</th>
-                <th className="px-2 md:px-4">Device ID</th>
+                <th className="px-2 md:px-4">Device Assign</th>
                 <th className="px-2 md:px-4">Public IP</th>
                 <th className="px-2 md:px-4">Local IP</th>
                 <th className="px-2 md:px-4">Status</th>
