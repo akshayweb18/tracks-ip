@@ -6,20 +6,44 @@ import { Monitor, Wifi, WifiOff } from "lucide-react";
 export default function StatsCards() {
   const [devices, setDevices] = useState([]);
 
+  async function load() {
+    const res = await fetch("/api/devices");
+    const data = await res.json();
+
+    // 🔥 Auto inactive detection (same logic as table)
+    const updated = data.map((d) => {
+      const lastSeen = new Date(d.lastSeen);
+      const now = new Date();
+      const diff = (now - lastSeen) / 1000;
+
+      return {
+        ...d,
+        status: diff > 60 ? "Inactive" : "Active",
+      };
+    });
+
+    setDevices(updated);
+  }
+
   useEffect(() => {
-    async function load() {
-      const res = await fetch("/api/devices");
-      const data = await res.json();
-      setDevices(data);
-    }
     load();
+    const interval = setInterval(load, 10000); // refresh every 10 sec
+    return () => clearInterval(interval);
   }, []);
 
   const total = devices.length;
-  const active = devices.filter((d) => d.status === "online").length;
-  const offline = devices.filter((d) => d.status === "offline").length;
+  const active = devices.filter((d) => d.status === "Active").length;
+  const inactive = devices.filter((d) => d.status === "Inactive").length;
 
-  const Card = ({ title, value, icon: Icon, bg, textColor, valueColor, border }) => (
+  const Card = ({
+    title,
+    value,
+    icon: Icon,
+    bg,
+    textColor,
+    valueColor,
+    border,
+  }) => (
     <div className={`rounded-2xl shadow p-6 ${bg} ${border}`}>
       <h3 className={`text-sm ${textColor}`}>{title}</h3>
       <p className={`text-3xl font-bold mt-2 flex items-center gap-2 ${valueColor}`}>
@@ -50,8 +74,8 @@ export default function StatsCards() {
         border="border border-green-200"
       />
       <Card
-        title="Offline Devices"
-        value={offline}
+        title="Inactive Devices"
+        value={inactive}
         icon={WifiOff}
         bg="bg-red-50"
         textColor="text-red-600"

@@ -1,43 +1,31 @@
 import { NextResponse } from "next/server";
+import { connectDB } from "@/lib/db";
+import Device from "@/models/Device";
 
-// Some sample names and locations to randomize
-const employeeNames = [
-  "Akshay","Rahul","Priya","Sonia","Vikram","Neha","Rohit","Anita","Manish","Divya",
-  "Karan","Simran","Ramesh","Pooja","Amit","Richa","Sandeep","Megha","Raj","Sneha"
-];
-
-const locations = [
-  "Mumbai, Maharashtra","Pune, Maharashtra","Delhi, India","Bangalore, Karnataka",
-  "Chennai, Tamil Nadu","Hyderabad, Telangana","Kolkata, West Bengal",
-  "Ahmedabad, Gujarat","Jaipur, Rajasthan","Lucknow, Uttar Pradesh"
-];
-
-const statuses = ["online", "offline"];
-
-function getRandomItem(array) {
-  return array[Math.floor(Math.random() * array.length)];
-}
-
-// Generate 80 unique devices
 export async function GET() {
-  const dummyDevices = [];
+  try {
+    await connectDB();
 
-  for (let i = 1; i <= 80; i++) {
-    const randomName = getRandomItem(employeeNames);
-    const randomLocation = getRandomItem(locations);
-    const randomStatus = getRandomItem(statuses);
-    const randomIP = `${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}.${Math.floor(Math.random() * 256)}`;
+    const devices = await Device.find().lean(); // 👈 important (returns plain object)
 
-    dummyDevices.push({
-      _id: i.toString(),
-      deviceId: `LAPTOP-${String(i).padStart(3, "0")}`,
-      assignedEmployee: randomName,
-      publicIP: randomIP,
-      location: randomLocation,
-      status: randomStatus,
-      lastActive: new Date(),
+    const now = Date.now();
+
+    const updatedDevices = devices.map((device) => {
+      const lastSeenTime = new Date(device.lastSeen).getTime();
+      const diff = now - lastSeenTime;
+
+      return {
+        ...device,
+        status: diff > 60000 ? "Offline" : "Active", // 60 sec rule
+      };
     });
-  }
 
-  return NextResponse.json(dummyDevices);
+    return NextResponse.json(updatedDevices);
+  } catch (error) {
+    console.error("Devices API Error:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch devices" },
+      { status: 500 }
+    );
+  }
 }
