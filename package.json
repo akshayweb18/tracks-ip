@@ -2,12 +2,16 @@
   "name": "tracking-system",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "vercel-build": "pnpm install --no-frozen-lockfile && next build",
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
-  },
+ "scripts": {
+  "vercel-build": "pnpm install --no-frozen-lockfile && next build",
+
+  "dev": "concurrently \"next dev\" \"node heartbeat.js\"",
+
+  "build": "next build",
+  "start": "next start",
+
+  "heartbeat": "node heartbeat.js"
+},
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.11",
     "@radix-ui/react-icons": "^1.3.2",
@@ -30,6 +34,7 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4.2.1",
     "autoprefixer": "^10.4.24",
+    "concurrently": "^9.2.1",
     "postcss": "^8.5.6",
     "shadcn": "^3.8.5",
     "tailwindcss": "^4.2.1",
