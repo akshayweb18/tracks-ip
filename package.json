@@ -1,11 +1,12 @@
 {
   "name": "tracking-system",
   "version": "0.1.0",
+  
   "private": true,
  "scripts": {
   "vercel-build": "pnpm install --no-frozen-lockfile && next build",
-
-  "dev": "concurrently \"next dev\" \"node heartbeat.js\"",
+"dev": "concurrently \"next dev --webpack\" \"node heartbeat.js\"",
+  
 
   "build": "next build",
   "start": "next start",

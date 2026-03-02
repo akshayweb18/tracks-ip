@@ -1,3 +1,5 @@
 {
-  "/api/heartbeat/route": "app/api/heartbeat/route.js"
+  "/api/heartbeat/route": "app/api/heartbeat/route.js",
+  "/api/devices/route": "app/api/devices/route.js",
+  "/page": "app/page.js"
 }
