@@ -1,6 +1,94 @@
-[00:00:02.973] Server  WARN    ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
-[00:00:03.356] Server  LOG     ✓ Ready in 2.3s
-[00:00:03.485] Browser ERROR   unhandledRejection: TypeError: Failed to fetch
-[00:00:03.485] Browser ERROR   Failed to load devices: {}
-[00:00:07.471] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:29.081] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:02.561] Server  WARN    ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+[00:00:03.097] Server  LOG     ✓ Ready in 2.1s
+[00:00:03.218] Browser ERROR   ./src/app/api/heartbeat/route.js:29:8
+Ecmascript file had an error
+  27 | }import { NextResponse } from "next/server";
+  28 | import { connectDB } from "@/lib/db";
+> 29 | import Device from "@/models/Device";
+     |        ^^^^^^
+  30 |
+  31 | export async function POST(req) {
+  32 |   try {
+
+the name `Device` is defined multiple times
+[00:00:03.218] Browser ERROR   ./src/app/api/heartbeat/route.js:27:11
+Ecmascript file had an error
+  25 |     return NextResponse.json({ error: "Failed" }, { status: 500 });
+  26 |   }
+> 27 | }import { NextResponse } from "next/server";
+     |           ^^^^^^^^^^^^
+  28 | import { connectDB } from "@/lib/db";
+  29 | import Device from "@/models/Device";
+  30 |
+
+the name `NextResponse` is defined multiple times
+[00:00:03.218] Browser ERROR   ./src/app/api/heartbeat/route.js:31:23
+Ecmascript file had an error
+  29 | import Device from "@/models/Device";
+  30 |
+> 31 | export async function POST(req) {
+     |                       ^^^^
+  32 |   try {
+  33 |     const body = await req.json();
+  34 |     const { deviceId, assignedEmployee, publicIP, localIP } = body;
+
+the name `POST` is defined multiple times
+[00:00:03.218] Browser ERROR   ./src/app/api/heartbeat/route.js:28:10
+Ecmascript file had an error
+  26 |   }
+  27 | }import { NextResponse } from "next/server";
+> 28 | import { connectDB } from "@/lib/db";
+     |          ^^^^^^^^^
+  29 | import Device from "@/models/Device";
+  30 |
+  31 | export async function POST(req) {
+
+the name `connectDB` is defined multiple times
+[00:00:03.218] Browser ERROR   ./src/app/api/heartbeat/route.js:29:8
+Ecmascript file had an error
+  27 | }import { NextResponse } from "next/server";
+  28 | import { connectDB } from "@/lib/db";
+> 29 | import Device from "@/models/Device";
+     |        ^^^^^^
+  30 |
+  31 | export async function POST(req) {
+  32 |   try {
+
+the name `Device` is defined multiple times
+[00:00:03.218] Browser ERROR   ./src/app/api/heartbeat/route.js:27:11
+Ecmascript file had an error
+  25 |     return NextResponse.json({ error: "Failed" }, { status: 500 });
+  26 |   }
+> 27 | }import { NextResponse } from "next/server";
+     |           ^^^^^^^^^^^^
+  28 | import { connectDB } from "@/lib/db";
+  29 | import Device from "@/models/Device";
+  30 |
+
+the name `NextResponse` is defined multiple times
+[00:00:03.218] Browser ERROR   ./src/app/api/heartbeat/route.js:31:23
+Ecmascript file had an error
+  29 | import Device from "@/models/Device";
+  30 |
+> 31 | export async function POST(req) {
+     |                       ^^^^
+  32 |   try {
+  33 |     const body = await req.json();
+  34 |     const { deviceId, assignedEmployee, publicIP, localIP } = body;
+
+the name `POST` is defined multiple times
+[00:00:03.219] Browser ERROR   ./src/app/api/heartbeat/route.js:28:10
+Ecmascript file had an error
+  26 |   }
+  27 | }import { NextResponse } from "next/server";
+> 28 | import { connectDB } from "@/lib/db";
+     |          ^^^^^^^^^
+  29 | import Device from "@/models/Device";
+  30 |
+  31 | export async function POST(req) {
+
+the name `connectDB` is defined multiple times
+[00:00:03.219] Browser ERROR   Failed to load devices: {}
+[00:00:05.252] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:13.484] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:20.969] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
