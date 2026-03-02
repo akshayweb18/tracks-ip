@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 17, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/User.DESKTOP-USER/Documents/ip-tracking-systems/src/app/login/page.jsx"],"sourcesContent":["const handleLogin = (e) => {\r\n  e.preventDefault();\r\n  if (email === \"admin@company.com\" && password === \"password123\") {\r\n    localStorage.setItem(\"token\", \"dummy-auth-token\");\r\n    router.push(\"/dashboard\"); // redirect to dashboard page\r\n  } else {\r\n    setError(\"Invalid email or password\");\r\n  }\r\n};"],"names":[],"mappings":"AAAA,MAAM,cAAc,CAAC;IACnB,EAAE,cAAc;IAChB,IAAI,UAAU,uBAAuB,aAAa,eAAe;QAC/D,aAAa,OAAO,CAAC,SAAS;QAC9B,OAAO,IAAI,CAAC,eAAe,6BAA6B;IAC1D,OAAO;QACL,SAAS;IACX;AACF"}}]
+}

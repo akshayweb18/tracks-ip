@@ -1,0 +1,20 @@
+[00:00:08.107] Server  WARN    ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+[00:00:09.781] Server  LOG     ✓ Ready in 5.9s
+[00:00:25.485] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:01:01.357] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:01:58.071] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:02:03.783] Server  ERROR   ⨯ Error: The default export is not a React Component in "/login/page"
+[00:02:04.077] Server  ERROR   ⨯ Error: The default export is not a React Component in "/login/page"
+[00:02:04.848] Server  ERROR   ⨯ Error: The default export is not a React Component in "/login/page"
+[00:02:05.166] Server  ERROR   ⨯ Error: The default export is not a React Component in "/login/page"
+[00:02:05.624] Server  ERROR   ⨯ Error: The default export is not a React Component in "/login/page"
+[00:02:06.008] Server  ERROR   ⨯ Error: The default export is not a React Component in "/login/page"
+[00:02:06.320] Browser ERROR   uncaughtError: Error: The default export is not a React Component in "/login/page"
+[00:02:09.143] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:02:25.436] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:02:43.041] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:02:45.131] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:02:46.910] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:02:48.341] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:02:49.986] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:02:51.447] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
