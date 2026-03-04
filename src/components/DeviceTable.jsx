@@ -76,6 +76,7 @@ export default function DeviceTable({ search }) {
                 <th className="px-2 md:px-4">Device Assign</th>
                 <th className="px-2 md:px-4">Public IP</th>
                 <th className="px-2 md:px-4">Local IP</th>
+                <th className="px-2 md:px-4">System</th>
                 <th className="px-2 md:px-4">Status</th>
                 <th className="px-2 md:px-4">Last Seen</th>
               </tr>
@@ -102,6 +103,22 @@ export default function DeviceTable({ search }) {
                   </td>
 
                   <td className="px-2 md:px-4">{d.localIP}</td>
+
+                  <td className="px-2 md:px-4">
+                    <div className="text-sm">
+                      {d.systemInfo?.platform ? (
+                        <div>{`${d.systemInfo.platform} ${d.systemInfo.release || ""}`}</div>
+                      ) : (
+                        <div className="text-gray-400">-</div>
+                      )}
+                      <div className="text-xs text-gray-500">
+                        {d.systemInfo?.cpuModel || ""}
+                        {d.systemInfo?.totalMem
+                          ? ` • ${(d.systemInfo.totalMem / (1024 ** 3)).toFixed(1)} GB`
+                          : ""}
+                      </div>
+                    </div>
+                  </td>
 
                   <td className="px-2 md:px-4">
                     <StatusBadge status={d.status} animated />
