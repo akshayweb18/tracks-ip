@@ -3,11 +3,6 @@
   "devCommand": "pnpm run dev",
   "installCommand": "pnpm install --frozen-lockfile",
   "framework": "nextjs",
-  "env": {
-    "MONGODB_URI": {
-      "description": "MongoDB connection URI"
-    }
-  },
   "regions": ["iad1"],
   "functions": {
     "src/app/api/**": {
