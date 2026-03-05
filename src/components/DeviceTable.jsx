@@ -54,7 +54,31 @@ export default function DeviceTable({ search }) {
 
   return (
     <div className="bg-white shadow-xl rounded-2xl p-4 md:p-6">
-      <div className="overflow-x-auto max-h-[600px] relative custom-scrollbar">
+      {/* mobile card list */}
+      {!loading && (
+        <div className="space-y-4 md:hidden">
+          {filteredDevices.map((d) => (
+            <Link
+              key={d._id}
+              href={`/devices/${d._id}`}
+              className="block bg-white rounded-xl shadow p-4 hover:shadow-md transition-shadow"
+            >
+              <div className="flex justify-between items-center mb-2">
+                <p className="font-medium text-blue-600 truncate">
+                  {d.assignedEmployee}
+                </p>
+                <StatusBadge status={d.status} />
+              </div>
+              <p className="text-sm text-gray-500 truncate">{d.deviceId}</p>
+              <div className="flex items-center text-sm text-gray-700 mt-1">
+                <FaWifi className="mr-1" />{d.publicIP}
+              </div>
+            </Link>
+          ))}
+        </div>
+      )}
+
+      <div className="overflow-x-auto max-h-[600px] relative custom-scrollbar hidden md:block">
 
         {loading ? (
           <div className="space-y-4 animate-pulse">
@@ -69,14 +93,14 @@ export default function DeviceTable({ search }) {
             ))}
           </div>
         ) : (
-          <table className="min-w-[700px] md:min-w-full text-sm border-separate border-spacing-0">
+          <table className="w-full text-sm border-separate border-spacing-0">
             <thead className="bg-gray-50 sticky top-0 z-10">
               <tr className="border-b text-left text-gray-600">
                 <th className="py-3 px-2 md:px-4">Employee</th>
-                <th className="px-2 md:px-4">Device Assign</th>
+                <th className="px-2 md:px-4">Device</th>
                 <th className="px-2 md:px-4">Public IP</th>
-                <th className="px-2 md:px-4">Local IP</th>
-                <th className="px-2 md:px-4">System</th>
+                <th className="hidden lg:table-cell px-2 md:px-4">Local IP</th>
+                <th className="hidden lg:table-cell px-2 md:px-4">System</th>
                 <th className="px-2 md:px-4">Status</th>
                 <th className="px-2 md:px-4">Last Seen</th>
               </tr>
@@ -102,9 +126,9 @@ export default function DeviceTable({ search }) {
                     {d.publicIP}
                   </td>
 
-                  <td className="px-2 md:px-4">{d.localIP}</td>
+                  <td className="hidden lg:table-cell px-2 md:px-4">{d.localIP}</td>
 
-                  <td className="px-2 md:px-4">
+                  <td className="hidden lg:table-cell px-2 md:px-4">
                     <div className="text-sm">
                       {d.systemInfo?.platform ? (
                         <div>{`${d.systemInfo.platform} ${d.systemInfo.release || ""}`}</div>
@@ -145,7 +169,6 @@ export default function DeviceTable({ search }) {
           </div>
         )}
       </div>
-
       <style jsx>{`
         .custom-scrollbar::-webkit-scrollbar {
           width: 8px;

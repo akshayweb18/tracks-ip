@@ -87,18 +87,7 @@ module.exports = require("next/dist/server/app-render/after-task-async-storage.e
 
 /***/ }),
 
-/***/ "../app-render/work-unit-async-storage.external":
-/*!**********************************************************************************!*\
-  !*** external "next/dist/server/app-render/work-unit-async-storage.external.js" ***!
-  \**********************************************************************************/
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("next/dist/server/app-render/work-unit-async-storage.external.js");
-
-/***/ }),
-
-/***/ "./work-async-storage.external":
+/***/ "../app-render/work-async-storage.external":
 /*!*****************************************************************************!*\
   !*** external "next/dist/server/app-render/work-async-storage.external.js" ***!
   \*****************************************************************************/
@@ -106,6 +95,17 @@ module.exports = require("next/dist/server/app-render/work-unit-async-storage.ex
 
 "use strict";
 module.exports = require("next/dist/server/app-render/work-async-storage.external.js");
+
+/***/ }),
+
+/***/ "./work-unit-async-storage.external":
+/*!**********************************************************************************!*\
+  !*** external "next/dist/server/app-render/work-unit-async-storage.external.js" ***!
+  \**********************************************************************************/
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("next/dist/server/app-render/work-unit-async-storage.external.js");
 
 /***/ }),
 

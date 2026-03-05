@@ -4,9 +4,9 @@ import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Search, Bell, LogOut, ChevronDown } from "lucide-react";
+import { Search, Bell, LogOut, ChevronDown, Menu } from "lucide-react";
 
-export default function Header({ search, setSearch }) {
+export default function Header({ search, setSearch, onMenuClick }) {
   const router = useRouter();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -31,28 +31,36 @@ export default function Header({ search, setSearch }) {
     <header className="sticky top-0 z-50 backdrop-blur-md bg-white/80 border-b shadow-sm">
       <div className="px-8 py-4 flex justify-between items-center">
 
-        {/* Left Section */}
-        <div>
-          <h2 className="text-xl font-semibold tracking-tight uppercase">
-            Dashboard
-          </h2>
-          <p className="text-sm text-gray-500">
-            Monitor company devices in real time
-          </p>
+        {/* Left Section (mobile menu + title) */}
+        <div className="flex items-center gap-4">
+          <button
+            onClick={onMenuClick}
+            className="md:hidden p-2 rounded hover:bg-gray-200 transition"
+          >
+            <Menu size={20} />
+          </button>
+          <div>
+            <h2 className="text-xl font-semibold tracking-tight uppercase">
+              Dashboard
+            </h2>
+            <p className="text-sm text-gray-500">
+              Monitor company devices in real time
+            </p>
+          </div>
         </div>
 
         {/* Right Section */}
         <div className="flex items-center gap-6">
 
           {/* Search */}
-          <div className="relative w-72">
+          <div className="relative w-full max-w-[400px]">
             <Search
               size={18}
               className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
             />
             <Input
               placeholder="Search devices..."
-              value={search}
+              value={search || ""}
               onChange={(e) => setSearch?.(e.target.value)}
               className="pl-10 rounded-full bg-gray-100 border-none focus-visible:ring-2 focus-visible:ring-black transition-all duration-200"
             />

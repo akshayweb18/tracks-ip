@@ -8,8 +8,8 @@ A real-time device monitoring and IP tracking system built with **Next.js**, **M
 - 📊 **Dashboard** - View employee devices, IPs, and connection status
 - 🔄 **Auto Refresh** - Devices update every 10 seconds
 - 🔐 **Secure Registration** - Upsert-based device registration to prevent duplicates
-- 📱 **Responsive Design** - Works on desktop and mobile with Tailwind CSS
-- 🎨 **Modern UI** - Built with Shadcn/UI and Radix components
+- 📱 **Responsive Design** - Fully adaptive UI; sidebar collapses into mobile menu with hamburger, and tables/cards stack on smaller screens via Tailwind
+- 🎨 **Modern UI** - Clean, responsive design using Tailwind CSS with custom components
 
 ## 🚀 Quick Start
 
@@ -79,7 +79,10 @@ tracks-ip/
 ### Devices
 
 - `GET /api/devices` - Fetch all active devices (deduplicated per deviceId)
-- `POST /api/register` - Register a new device
+- `POST /api/register` - Register a new device (used by the web UI at `/register`)
+
+### Web Registration
+A polished form is available at `/register` with field validation, real‑time feedback and a responsive card layout. Enter **Device ID**, **Assigned Employee** and an optional location. After submission the page shows a success banner with the device details and a link back to the dashboard.
 - `POST /api/heartbeat` - Send device heartbeat (updates lastSeen)
 - `POST /api/update` - Update device info
 

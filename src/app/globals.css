@@ -1,6 +1,5 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -123,6 +122,32 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Responsive tweaks for widths between 320px and 991px
+   These provide denser padding, slightly smaller headings and
+   simplified grid behavior to improve layout on phones and
+   small tablets (covering 320px → 991px viewport range).
+*/
+@media (min-width: 320px) and (max-width: 991px) {
+  .p-8 { padding: 1rem !important; }
+  .p-6 { padding: 0.75rem !important; }
+  .px-6 { padding-left: 1rem !important; padding-right: 1rem !important; }
+  .py-4 { padding-top: 0.75rem !important; padding-bottom: 0.75rem !important; }
+  .max-w-6xl { padding-left: 0.75rem !important; padding-right: 0.75rem !important; }
+  .text-4xl { font-size: 1.5rem !important; line-height: 1.2 !important; }
+  .text-3xl { font-size: 1.25rem !important; }
+  .rounded-2xl { border-radius: 0.75rem !important; }
+
+  /* Make dense card stacks on mid/phone sizes */
+  .grid-cols-3 { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; }
+  .md\\:grid-cols-3 { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; }
+
+  /* Reduce large table padding on smaller viewports */
+  td, th { padding-top: 0.5rem !important; padding-bottom: 0.5rem !important; }
+
+  /* Ensure long text breaks and doesn't overflow */
+  .truncate, .break-words { overflow-wrap: anywhere; word-break: break-word; }
 }
 
 
