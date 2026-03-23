@@ -4,7 +4,6 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "vercel-build": "pnpm install --no-frozen-lockfile && next build",
     "dev": "concurrently \"next dev --webpack\" \"node heartbeat.js\"",
     "build": "next build",
     "start": "next start",

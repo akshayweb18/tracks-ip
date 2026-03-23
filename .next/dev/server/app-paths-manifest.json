@@ -1,8 +1,7 @@
 {
-  "/api/devices/route": "app/api/devices/route.js",
   "/api/heartbeat/route": "app/api/heartbeat/route.js",
+  "/api/devices/route": "app/api/devices/route.js",
   "/page": "app/page.js",
   "/devices/page": "app/devices/page.js",
-  "/devices/[id]/page": "app/devices/[id]/page.js",
   "/register/page": "app/register/page.js"
 }
