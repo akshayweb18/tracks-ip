@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LayoutDashboard, Laptop, PlusCircle, X } from "lucide-react";
@@ -16,11 +17,27 @@ export default function Sidebar({ mobileOpen, onClose }) {
   const isActiveLink = (href) =>
     href === "/" ? pathname === href : pathname.startsWith(href);
 
+  useEffect(() => {
+    const onEscape = (event) => {
+      if (event.key === "Escape") onClose?.();
+    };
+
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+      window.addEventListener("keydown", onEscape);
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", onEscape);
+    };
+  }, [mobileOpen, onClose]);
+
   return (
     <>
       {/* Backdrop */}
       <div
-        className={`fixed inset-0 bg-black/40 z-30 md:hidden transition-opacity ${
+        className={`fixed inset-0 z-70 bg-slate-950/45 backdrop-blur-[1px] transition-opacity lg:hidden ${
           mobileOpen
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
@@ -29,25 +46,27 @@ export default function Sidebar({ mobileOpen, onClose }) {
       />
 
       <aside
-        className={`fixed top-0 left-0 h-full w-64 bg-white border-r p-6 z-40 transform transition-transform duration-300 ease-in-out
+        className={`fixed inset-y-0 left-0 h-screen w-72 bg-white/95 backdrop-blur border-r border-slate-200 p-6 z-80 transform transition-transform duration-300 ease-in-out
         ${mobileOpen ? "translate-x-0" : "-translate-x-full"}
-        md:relative md:translate-x-0`}
+        lg:sticky lg:top-0 lg:translate-x-0 lg:self-start`}
       >
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 md:hidden z-50 bg-gray-100 hover:bg-gray-200 p-2 rounded-full shadow"
+          aria-label="Close sidebar"
+          className="absolute right-4 top-4 z-90 rounded-full border border-slate-300 bg-white p-2.5 text-slate-800 shadow-md transition hover:bg-slate-100 lg:hidden"
         >
-          <X size={22} className="text-black" />
+          <X size={20} />
         </button>
 
         {/* Logo */}
-        <div className="mb-10">
-          <h4 className="text-2xl font-bold text-gray-800">
+        <div className="mb-10 border-b border-slate-100 pb-6">
+          <h4 className="text-2xl font-bold tracking-tight text-slate-900">
             TRACK
-            <span className="text-yellow-400">E</span>
+            <span className="text-amber-500">E</span>
             FLOW
           </h4>
+          <p className="mt-2 text-xs uppercase tracking-[0.18em] text-slate-500">Device Intelligence</p>
         </div>
 
         {/* Nav */}
@@ -64,8 +83,8 @@ export default function Sidebar({ mobileOpen, onClose }) {
                 className={`flex items-center gap-3 px-4 py-3 rounded-lg transition
                   ${
                     isActive
-                      ? "bg-black text-white"
-                      : "text-gray-600 hover:bg-gray-100 hover:text-black"
+                      ? "bg-slate-900 text-white shadow-sm"
+                      : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
                   }`}
               >
                 <Icon size={18} />

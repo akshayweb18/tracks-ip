@@ -26,7 +26,7 @@ export default function DeviceDetails() {
   }, [id]);
 
   if (loading) return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-gray-100 flex items-center justify-center p-4">
+    <div className="flex min-h-[70vh] items-center justify-center p-4">
       <div className="text-center">
         <div className="animate-spin mb-6 inline-block">
           <FaLaptop size={56} className="text-blue-600" />
@@ -37,7 +37,7 @@ export default function DeviceDetails() {
   );
 
   if (!device) return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-gray-100 p-6 flex items-center justify-center">
+    <div className="flex min-h-[70vh] items-center justify-center p-6">
       <div className="bg-white rounded-2xl shadow-lg p-12 max-w-md w-full text-center">
         <FaTimesCircle size={72} className="mx-auto mb-6 text-red-500" />
         <p className="text-2xl text-gray-900 font-bold mb-2">Device Not Found</p>
@@ -60,32 +60,51 @@ export default function DeviceDetails() {
   const uptimeText = uptime ? `${uptime < 60 ? uptime + 's' : Math.floor(uptime / 60) + 'm'} ago` : "N/A";
   const memoryPercent = systemInfo.freeMem && systemInfo.totalMem ? ((systemInfo.freeMem / systemInfo.totalMem) * 100).toFixed(1) : 0;
 
+  const metricStyles = {
+    blue: {
+      iconBox: "bg-cyan-50",
+      iconColor: "text-cyan-700",
+    },
+    green: {
+      iconBox: "bg-emerald-50",
+      iconColor: "text-emerald-700",
+    },
+    amber: {
+      iconBox: "bg-amber-50",
+      iconColor: "text-amber-700",
+    },
+    slate: {
+      iconBox: "bg-slate-100",
+      iconColor: "text-slate-700",
+    },
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100">
-      <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-200">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center">
-          <Link href="/devices" className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 font-medium transition-colors">
+    <section className="animate-fade-up">
+      <div className="sticky top-0 z-40 border-b border-slate-200 bg-white/85 backdrop-blur-md">
+        <div className="mx-auto flex w-full max-w-6xl items-center px-4 py-4 sm:px-6">
+          <Link href="/devices" className="inline-flex items-center gap-2 font-medium text-cyan-700 transition-colors hover:text-cyan-900">
             <FaArrowLeft size={16} />
             Back to Devices
           </Link>
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-6 py-8">
+      <div className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 sm:py-8">
         {/* Header Section */}
-        <div className="bg-white rounded-2xl shadow-md border border-slate-200 p-8 mb-8">
+        <div className="mb-6 rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-sm sm:p-7">
           <div className="flex items-start justify-between gap-6 flex-wrap">
             <div className="flex items-start gap-6 flex-1 min-w-0">
-              <div className="bg-gradient-to-br from-blue-100 to-blue-50 p-4 rounded-xl shadow-sm flex-shrink-0">
-                <FaLaptop size={32} className="text-blue-600" />
+              <div className="rounded-xl bg-cyan-50 p-4 shadow-sm">
+                <FaLaptop size={30} className="text-cyan-700" />
               </div>
               <div className="min-w-0">
-                <h1 className="text-4xl font-bold text-gray-900 mb-1 break-words">{device.assignedEmployee}</h1>
-                <p className="text-lg text-gray-600 font-mono bg-gray-50 px-4 py-2 rounded-lg inline-block">{device.deviceId}</p>
+                <h1 className="mb-1 wrap-break-word text-2xl font-bold text-slate-900 sm:text-4xl">{device.assignedEmployee}</h1>
+                <p className="inline-block rounded-lg bg-slate-100 px-3 py-1.5 font-mono text-sm text-slate-700 sm:text-base">{device.deviceId}</p>
               </div>
             </div>
-            <div className="flex-shrink-0">
-              <div className={`flex items-center gap-3 px-5 py-3 rounded-full font-semibold text-sm ${isActive ? 'bg-emerald-100 text-emerald-700 border border-emerald-300' : 'bg-rose-100 text-rose-700 border border-rose-300'}`}>
+            <div className="shrink-0">
+              <div className={`flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold ${isActive ? 'border-emerald-300 bg-emerald-100 text-emerald-700' : 'border-rose-300 bg-rose-100 text-rose-700'}`}>
                 {isActive ? <FaCheckCircle className="mr-2" /> : <FaTimesCircle className="mr-2" />}
                 {device.status}
               </div>
@@ -94,75 +113,75 @@ export default function DeviceDetails() {
         </div>
 
         {/* Key Metrics Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {[
             { label: "Last Seen", value: uptimeText, icon: FaClock, color: "blue" },
             { label: "Public IP", value: device.publicIP, icon: FaNetworkWired, color: "green" },
-            { label: "Local IP", value: device.localIP || "N/A", icon: FaHdd, color: "purple" },
-            { label: "Memory", value: formatBytes(systemInfo.totalMem), icon: FaBrain, color: "orange" }
+            { label: "Local IP", value: device.localIP || "N/A", icon: FaHdd, color: "slate" },
+            { label: "Memory", value: formatBytes(systemInfo.totalMem), icon: FaBrain, color: "amber" }
           ].map((metric, idx) => (
-            <div key={idx} className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 hover:shadow-md transition-shadow">
+            <div key={idx} className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm transition-shadow hover:shadow-md sm:p-5">
               <div className="flex items-center justify-between mb-4">
-                <p className="text-sm font-semibold text-gray-600 uppercase tracking-wide">{metric.label}</p>
-                <div className={`p-2 rounded-lg bg-${metric.color}-50`}>
-                  <metric.icon size={18} className={`text-${metric.color}-600`} />
+                <p className="text-xs font-semibold uppercase tracking-[0.15em] text-slate-600">{metric.label}</p>
+                <div className={`rounded-lg p-2 ${metricStyles[metric.color].iconBox}`}>
+                  <metric.icon size={16} className={metricStyles[metric.color].iconColor} />
                 </div>
               </div>
-              <p className="text-2xl font-bold text-gray-900 truncate">{metric.value}</p>
+              <p className="truncate text-lg font-bold text-slate-900 sm:text-xl">{metric.value}</p>
             </div>
           ))}
         </div>
 
         {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <div className="mb-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
           {/* Device Information */}
-          <div className="bg-white rounded-2xl shadow-md border border-slate-200 p-8">
-            <div className="flex items-center gap-4 mb-8 pb-6 border-b-2 border-slate-100">
-              <div className="bg-blue-100 p-3 rounded-lg">
-                <FaLaptop className="text-blue-600" size={24} />
+          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
+            <div className="mb-6 flex items-center gap-3 border-b border-slate-100 pb-5">
+              <div className="rounded-lg bg-cyan-100 p-2.5">
+                <FaLaptop className="text-cyan-700" size={20} />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900">Device Information</h2>
+              <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">Device Information</h2>
             </div>
-            <div className="space-y-6">
+            <div className="space-y-5">
               <div>
-                <p className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Device ID</p>
-                <p className="text-lg font-mono bg-slate-50 p-4 rounded-lg text-gray-800 border border-slate-200">{device.deviceId}</p>
+                <p className="mb-2 text-xs font-bold uppercase tracking-[0.12em] text-slate-500">Device ID</p>
+                <p className="rounded-lg border border-slate-200 bg-slate-50 p-3 font-mono text-sm text-slate-800 sm:text-base">{device.deviceId}</p>
               </div>
               <div>
-                <p className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Location</p>
-                <p className="text-lg text-gray-800">{device.location || <span className="text-gray-400">Not specified</span>}</p>
+                <p className="mb-2 text-xs font-bold uppercase tracking-[0.12em] text-slate-500">Location</p>
+                <p className="text-base text-slate-800 sm:text-lg">{device.location || <span className="text-slate-400">Not specified</span>}</p>
               </div>
               <div>
-                <p className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Assigned Employee</p>
-                <p className="text-lg font-semibold text-gray-900">{device.assignedEmployee}</p>
+                <p className="mb-2 text-xs font-bold uppercase tracking-[0.12em] text-slate-500">Assigned Employee</p>
+                <p className="text-base font-semibold text-slate-900 sm:text-lg">{device.assignedEmployee}</p>
               </div>
             </div>
           </div>
 
           {/* Network Information */}
-          <div className="bg-white rounded-2xl shadow-md border border-slate-200 p-8">
-            <div className="flex items-center gap-4 mb-8 pb-6 border-b-2 border-slate-100">
-              <div className="bg-green-100 p-3 rounded-lg">
-                <FaNetworkWired className="text-green-600" size={24} />
+          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
+            <div className="mb-6 flex items-center gap-3 border-b border-slate-100 pb-5">
+              <div className="rounded-lg bg-emerald-100 p-2.5">
+                <FaNetworkWired className="text-emerald-700" size={20} />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900">Network Information</h2>
+              <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">Network Information</h2>
             </div>
-            <div className="space-y-6">
+            <div className="space-y-5">
               <div>
-                <p className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Public IP Address</p>
+                <p className="mb-2 text-xs font-bold uppercase tracking-[0.12em] text-slate-500">Public IP Address</p>
                 <div className="bg-emerald-50 border border-emerald-200 p-4 rounded-lg">
-                  <p className="text-lg font-mono font-bold text-emerald-900">{device.publicIP}</p>
+                  <p className="break-all font-mono text-base font-bold text-emerald-900 sm:text-lg">{device.publicIP}</p>
                 </div>
               </div>
               <div>
-                <p className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Local IP Address</p>
+                <p className="mb-2 text-xs font-bold uppercase tracking-[0.12em] text-slate-500">Local IP Address</p>
                 <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg">
-                  <p className="text-lg font-mono font-bold text-blue-900">{device.localIP || "N/A"}</p>
+                  <p className="break-all font-mono text-base font-bold text-blue-900 sm:text-lg">{device.localIP || "N/A"}</p>
                 </div>
               </div>
               <div>
-                <p className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Connection Status</p>
-                <div className={`px-6 py-3 rounded-lg font-bold text-center border-2 ${isActive ? 'bg-emerald-50 text-emerald-700 border-emerald-300' : 'bg-rose-50 text-rose-700 border-rose-300'}`}>
+                <p className="mb-2 text-xs font-bold uppercase tracking-[0.12em] text-slate-500">Connection Status</p>
+                <div className={`rounded-lg border-2 px-5 py-3 text-center text-sm font-bold sm:text-base ${isActive ? 'border-emerald-300 bg-emerald-50 text-emerald-700' : 'border-rose-300 bg-rose-50 text-rose-700'}`}>
                   {isActive ? '✓ Active' : '✗ Inactive'}
                 </div>
               </div>
@@ -171,46 +190,46 @@ export default function DeviceDetails() {
         </div>
 
         {/* System Information */}
-        <div className="bg-white rounded-2xl shadow-md border border-slate-200 p-8 mb-8">
-          <div className="flex items-center gap-4 mb-8 pb-6 border-b-2 border-slate-100">
-            <div className="bg-purple-100 p-3 rounded-lg">
-              <FaServer className="text-purple-600" size={24} />
+        <div className="mb-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
+          <div className="mb-6 flex items-center gap-3 border-b border-slate-100 pb-5">
+            <div className="rounded-lg bg-slate-200 p-2.5">
+              <FaServer className="text-slate-800" size={20} />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900">System Specifications</h2>
+            <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">System Specifications</h2>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             {[
-              { label: "OS", value: systemInfo.platform ? `${systemInfo.platform} ${systemInfo.release || ""}`.trim() : "N/A", icon: FaMicrochip, color: "purple" },
-              { label: "Architecture", value: systemInfo.arch || "N/A", icon: FaCog, color: "orange" },
-              { label: "CPU Model", value: systemInfo.cpuModel || "N/A", icon: FaBrain, color: "cyan" },
+              { label: "OS", value: systemInfo.platform ? `${systemInfo.platform} ${systemInfo.release || ""}`.trim() : "N/A", icon: FaMicrochip, color: "slate" },
+              { label: "Architecture", value: systemInfo.arch || "N/A", icon: FaCog, color: "amber" },
+              { label: "CPU Model", value: systemInfo.cpuModel || "N/A", icon: FaBrain, color: "blue" },
               { label: "Total Memory", value: formatBytes(systemInfo.totalMem), icon: FaHdd, color: "green" }
             ].map((spec, idx) => (
-              <div key={idx} className={`bg-gradient-to-br from-slate-50 to-slate-100 p-6 rounded-xl border border-slate-200`}>
-                <div className="flex items-center justify-between mb-3">
-                  <p className="text-xs font-bold text-gray-600 uppercase tracking-wide">{spec.label}</p>
-                  <div className={`p-2 rounded-lg bg-${spec.color}-100`}>
-                    <spec.icon size={16} className={`text-${spec.color}-600`} />
+              <div key={idx} className="rounded-xl border border-slate-200 bg-linear-to-br from-slate-50 to-slate-100 p-4 sm:p-5">
+                <div className="mb-3 flex items-center justify-between gap-3">
+                  <p className="text-xs font-bold uppercase tracking-[0.12em] text-slate-600">{spec.label}</p>
+                  <div className={`rounded-lg p-2 ${metricStyles[spec.color].iconBox}`}>
+                    <spec.icon size={16} className={metricStyles[spec.color].iconColor} />
                   </div>
                 </div>
-                <p className="text-lg font-semibold text-gray-900">{spec.value}</p>
+                <p className="wrap-break-word text-base font-semibold text-slate-900 sm:text-lg">{spec.value}</p>
               </div>
             ))}
           </div>
 
           {/* Memory Usage */}
           {systemInfo.freeMem && systemInfo.totalMem && (
-            <div className="mt-8 bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl border border-blue-200">
+            <div className="mt-6 rounded-xl border border-blue-200 bg-linear-to-r from-blue-50 to-cyan-50 p-4 sm:p-6">
               <div className="flex items-center justify-between mb-4">
-                <p className="text-sm font-bold text-gray-700 uppercase tracking-wide">Memory Usage</p>
-                <p className="text-2xl font-bold text-gray-900">{memoryPercent}% Free</p>
+                <p className="text-xs font-bold uppercase tracking-[0.12em] text-slate-700">Memory Usage</p>
+                <p className="text-xl font-bold text-slate-900 sm:text-2xl">{memoryPercent}% Free</p>
               </div>
               <div className="w-full bg-gray-300 rounded-full h-3 overflow-hidden">
                 <div 
-                  className="bg-gradient-to-r from-emerald-400 to-green-500 h-3 rounded-full transition-all duration-300" 
+                  className="bg-linear-to-r from-emerald-400 to-green-500 h-3 rounded-full transition-all duration-300" 
                   style={{ width: `${memoryPercent}%` }}
                 ></div>
               </div>
-              <div className="flex justify-between mt-4 text-sm text-gray-700">
+              <div className="mt-4 flex flex-col gap-2 text-sm text-slate-700 sm:flex-row sm:justify-between">
                 <span>Free: <strong>{formatBytes(systemInfo.freeMem)}</strong></span>
                 <span>Total: <strong>{formatBytes(systemInfo.totalMem)}</strong></span>
               </div>
@@ -218,35 +237,35 @@ export default function DeviceDetails() {
           )}
         </div>
         {/* Activity Timeline */}
-        <div className="bg-white rounded-2xl shadow-md border border-slate-200 p-8">
-          <div className="flex items-center gap-4 mb-8 pb-6 border-b-2 border-slate-100">
-            <div className="bg-indigo-100 p-3 rounded-lg">
-              <FaClock className="text-indigo-600" size={24} />
+        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
+          <div className="mb-6 flex items-center gap-3 border-b border-slate-100 pb-5">
+            <div className="rounded-lg bg-cyan-100 p-2.5">
+              <FaClock className="text-cyan-700" size={20} />
             </div>
-            <h2 className="text-2xl font-bold text-gray-900">Activity Timeline</h2>
+            <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">Activity Timeline</h2>
           </div>
-          <div className="space-y-6">
+          <div className="space-y-5">
             {[
-              { label: "Last Seen", value: lastSeenDate, color: "emerald", icon: FaCheckCircle },
-              { label: "Created", value: createdDate, color: "blue", icon: FaClock },
-              { label: "Last Updated", value: device.updatedAt ? new Date(device.updatedAt).toLocaleString() : "N/A", color: "indigo", icon: FaClock }
+              { label: "Last Seen", value: lastSeenDate, icon: FaCheckCircle },
+              { label: "Created", value: createdDate, icon: FaClock },
+              { label: "Last Updated", value: device.updatedAt ? new Date(device.updatedAt).toLocaleString() : "N/A", icon: FaClock }
             ].map((activity, idx) => (
               <div key={idx} className="flex gap-4">
                 <div className="flex flex-col items-center">
-                  <div className={`w-10 h-10 rounded-full bg-${activity.color}-100 flex items-center justify-center flex-shrink-0`}>
-                    <activity.icon size={18} className={`text-${activity.color}-600`} />
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-cyan-100">
+                    <activity.icon size={16} className="text-cyan-700" />
                   </div>
-                  {idx < 2 && <div className={`w-1 h-8 bg-${activity.color}-200 mt-2`}></div>}
+                  {idx < 2 && <div className="mt-2 h-8 w-1 bg-cyan-200"></div>}
                 </div>
                 <div className="pt-2 pb-4">
-                  <p className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-1">{activity.label}</p>
-                  <p className="text-lg font-semibold text-gray-900">{activity.value}</p>
+                  <p className="mb-1 text-xs font-bold uppercase tracking-[0.12em] text-slate-500">{activity.label}</p>
+                  <p className="text-sm font-semibold text-slate-900 sm:text-lg">{activity.value}</p>
                 </div>
               </div>
             ))}
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

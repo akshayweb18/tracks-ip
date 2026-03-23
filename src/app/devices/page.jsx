@@ -1,7 +1,6 @@
 "use client";
 
 import DeviceTable from "@/components/DeviceTable";
-import StatsCards from "@/components/StatsCards";
 import { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 
@@ -9,30 +8,30 @@ export default function DevicesPage() {
   const [search, setSearch] = useState("");
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      {/* Title */}
-      <h1 className="text-3xl md:text-4xl font-bold mb-6 text-gray-800">
-        Device Monitoring Dashboard
-      </h1>
+    <section className="animate-fade-up">
+      <div className="mb-5 flex flex-col gap-4 rounded-2xl border border-slate-200/80 bg-white/90 p-4 shadow-sm sm:p-6 lg:flex-row lg:items-end lg:justify-between">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+            Devices
+          </h1>
+          <p className="mt-1 text-sm text-slate-600">
+            Search, monitor, and inspect every tracked endpoint.
+          </p>
+        </div>
 
-      {/* Search Input */}
-      <div className="mb-6 flex justify-center md:justify-end">
-        <div className="relative w-full md:w-1/3">
-          <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+        <div className="relative w-full lg:max-w-sm">
+          <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
           <input
             type="text"
             placeholder="Search device or employee..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full border border-gray-300 rounded-full px-10 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-gray-400 transition-all duration-300 hover:shadow-md"
+            className="h-11 w-full rounded-full border border-slate-300 px-10 text-sm text-slate-800 shadow-sm transition-all duration-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-cyan-400"
           />
         </div>
       </div>
 
-      {/* Device Table */}
-     
-        <DeviceTable search={search} />
-     
-    </div>
+      <DeviceTable search={search} />
+    </section>
   );
 }

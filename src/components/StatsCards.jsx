@@ -5,24 +5,36 @@ import { Monitor, Wifi, WifiOff } from "lucide-react";
 
 export default function StatsCards() {
   const [devices, setDevices] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   async function load() {
-    const res = await fetch("/api/devices");
-    const data = await res.json();
+    try {
+      setError("");
+      const res = await fetch("/api/devices", { cache: "no-store" });
+      if (!res.ok) {
+        throw new Error("Failed to fetch latest stats.");
+      }
+      const data = await res.json();
 
-    // 🔥 Auto inactive detection (same logic as table)
-    const updated = data.map((d) => {
-      const lastSeen = new Date(d.lastSeen);
-      const now = new Date();
-      const diff = (now - lastSeen) / 1000;
+      // Auto inactive detection (same logic as table)
+      const updated = data.map((d) => {
+        const lastSeen = new Date(d.lastSeen);
+        const now = new Date();
+        const diff = (now - lastSeen) / 1000;
 
-      return {
-        ...d,
-        status: diff > 60 ? "Inactive" : "Active",
-      };
-    });
+        return {
+          ...d,
+          status: diff > 60 ? "Inactive" : "Active",
+        };
+      });
 
-    setDevices(updated);
+      setDevices(updated);
+    } catch (err) {
+      setError(err.message || "Unable to load stats.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   useEffect(() => {
@@ -44,17 +56,33 @@ export default function StatsCards() {
     valueColor,
     border,
   }) => (
-    <div className={`rounded-2xl shadow p-6 ${bg} ${border}`}>
-      <h3 className={`text-sm ${textColor}`}>{title}</h3>
-      <p className={`text-3xl font-bold mt-2 flex items-center gap-2 ${valueColor}`}>
-        <Icon size={28} />
+    <div className={`surface-panel p-4 sm:p-5 lg:p-6 ${bg} ${border}`}>
+      <h3 className={`text-xs font-semibold uppercase tracking-[0.15em] ${textColor}`}>{title}</h3>
+      <p className={`mt-3 flex items-center gap-2 text-2xl font-bold sm:text-3xl ${valueColor}`}>
+        <Icon size={24} />
         {value}
       </p>
     </div>
   );
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+      {loading &&
+        Array.from({ length: 3 }).map((_, index) => (
+          <div key={index} className="surface-panel animate-pulse p-5 sm:p-6">
+            <div className="h-3 w-28 rounded bg-slate-200" />
+            <div className="mt-4 h-8 w-20 rounded bg-slate-300" />
+          </div>
+        ))}
+
+      {!loading && error && (
+        <div className="surface-panel col-span-full rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-700">
+          {error}
+        </div>
+      )}
+
+      {!loading && !error && (
+        <>
       <Card
         title="Total Devices"
         value={total}
@@ -82,6 +110,8 @@ export default function StatsCards() {
         valueColor="text-red-700"
         border="border border-red-200"
       />
+        </>
+      )}
     </div>
   );
 }
